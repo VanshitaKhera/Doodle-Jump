@@ -74,20 +74,34 @@ window.onload = function () {
 };
 
 function handleTouchStart(e) {
-  let touchX = e.touches[0].clientX;
-  if (touchX > boardWidth / 2) {
-    // move right
-    velocityX = 4;
-    doodler.img = doodlerRightImg;
+  if (gameOver) {
+    resetGame();
   } else {
-    // move left
-    velocityX = -4;
-    doodler.img = doodlerLeftImg;
+    let touchX = e.touches[0].clientX;
+    if (touchX > boardWidth / 2) {
+      velocityX = 4;
+      doodler.img = doodlerRightImg;
+    } else {
+      velocityX = -4;
+      doodler.img = doodlerLeftImg;
+    }
   }
 }
 
 function handleTouchEnd(e) {
   velocityX = 0;
+}
+
+function resetGame() {
+  doodler.x = doodlerX;
+  doodler.y = doodlerY;
+  velocityX = 0;
+  velocityY = initialVelocityY;
+  score = 0;
+  maxScore = 0;
+  gameOver = false;
+  placePlatforms();
+  requestAnimationFrame(update);
 }
 
 function update() {
