@@ -68,7 +68,27 @@ window.onload = function () {
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveDoodler);
   document.addEventListener("keyup", stopDoodler);
+
+  board.addEventListener("touchstart", handleTouchStart);
+  board.addEventListener("touchend", handleTouchEnd);
 };
+
+function handleTouchStart(e) {
+  let touchX = e.touches[0].clientX;
+  if (touchX > boardWidth / 2) {
+    // move right
+    velocityX = 4;
+    doodler.img = doodlerRightImg;
+  } else {
+    // move left
+    velocityX = -4;
+    doodler.img = doodlerLeftImg;
+  }
+}
+
+function handleTouchEnd(e) {
+  velocityX = 0;
+}
 
 function update() {
   if (gameOver) {
